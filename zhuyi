@@ -1,0 +1,47 @@
+创建angular项目：
+1.file-new project-AngularJS
+在Terminal中执行npm start
+2.如果提示未安装git,则安装
+如果安装速度较慢，修改npm注册点：
+npm config set registry https://registry.npm.t
+如果下载bower依赖出错，多试几次
+
+3.跨域问题解决：
+  1）jsonp:
+    前端：
+    *jquery
+    $.ajax({dataType:'jsonp'})
+    *angular
+    $http.jsonp('http://......?jsonp_callback=JSON_CALLBACK')
+    后端：
+    echo $_GET['callback'].'('.json_encode(data).')';
+  2) cors:跨域资源共享
+    后端只需加一行代码：header('Access-Control-Allow-Origin:http://localhost:8000');
+    访问-控制-允许-域名：* 允许所有域名，较危险，仅适用于开发阶段使用
+                      若设置指定域名则仅限该域名能访问
+    如果要发送post或put这样带数据的方法，需要额外设置：
+    header('Access-Control-Allow-Headers:Content-Type');
+    header('Access-Control-Allow-Method','POST,GET,...');
+    如果要携带cookie,则需要设置：（Credentials证书）
+    header('Access-Control-Allow-Credentials:true');
+  3）代理服务器
+    后台：可以使用curl发送请求并转发结果给前端
+    <?php
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt ($ch, CURLOPT_URL, ‘http://www.jb51.net/');
+    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $file_contents = curl_exec($ch);
+    curl_close($ch);
+
+    echo $file_contents;
+    ?>
+
+
+4.angular项目创建
+先复制新模块文件夹
+2.重命名文件夹
+3.将*.js中的模块名、路由地址、模板名称、控制器名称修改
+4.在index.html中导入新增模块中的js文件
+5.将模块导入myapp中

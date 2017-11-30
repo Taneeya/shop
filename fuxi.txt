@@ -1,0 +1,71 @@
+复习：
+  1.添加新模块（页面）
+    1.1 赋值文件夹
+    1.2重命名文件
+    1.3在模块js中重命名
+    1.4index.html添加上面js
+    1.5app.ja中添加新增模块
+  2.路由导航
+    2.1<a href="#/!viewEdit">
+    2.2 $location.path('/viewEdit');
+
+
+  1.更新
+    路由传参
+    1）修改地址 /view1.editUser/:name
+    2)导航 $location.path('view1.editUser/tom')
+    3)获取 $routeParams.name
+  2.激活状态  自定义指令
+    -路由事件  $routeChangeSuccess
+    -增加自定义指令
+     *当需要dom操作是需要指令
+     *尽量不要讲dom操作放到控制器中
+    -实现指令
+    .directive('routerLinkActive', ['$location', function($location) {
+        return function(scope, elm, attrs) {
+            //监听路由事件
+            scope.$on('$routeChangeSuccess',function (event) {
+                var path=$location.path();
+                console.log(path);
+                var href=elm.find('a').attr('href').substr(2);
+                console.log(href);
+                if(path.indexOf(href)!=-1){
+                    //路由匹配
+                    elm.addClass('active');
+                }else{
+                    elm.removeClass('active');
+                }
+            })
+        };
+    }]);
+  3.ui-router
+    -安装模块： https://angular-ui.github.io/ui-router
+    -index.html引入js
+    -app.js添加模块:'ui.router'
+    -app.js配置
+    -独立模块配置路由：
+     $stateProvider.state('view',{...})
+     $stateProvider.state({name:'view',...})
+    -路由链接：<a ui-sref="view">
+    -视口： <ui-view></ui-view>
+    -传参：
+     命令式 $state.go('view2',{param:val})
+     超链接 <a ui-sref="view2({param:val})">
+     获取参：$stateParams:param
+    -嵌套路由：
+     声明状态 view1.userEdit
+     父模板中嵌套 <ui-view></ui-view>
+    -默认路由 $urlRouterProvider
+    -路由事件:$stateChangeSuccess
+
+  4.表单验证
+    -给表单添加name、novalidate
+    -给表单添加name
+    -给表单添加校验选项：
+      required/pattern/email/url/number
+    -合法性判断：
+      formName.$invalid/$valid
+      formName.inputName.$invalid/$valid/$error/$pristin/$dirty
+
+
+  Ionic框架：快速开发app
